@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tencent Cloud ADP Agent Open-Source Ecosystem</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #000;
+            color: #f5f5f7;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1d1d1f 0%, #000 100%);
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(48px, 8vw, 96px);
+            font-weight: 700;
+            letter-spacing: -0.015em;
+            line-height: 1.05;
+            margin-bottom: 24px;
+            background: linear-gradient(90deg, #fff 0%, #999 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .subtitle {
+            font-size: clamp(21px, 3vw, 28px);
+            font-weight: 400;
+            color: #86868b;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            line-height: 1.4;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #06c, #0cf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Architecture Section */
+        .architecture {
+            background: #1d1d1f;
+        }
+
+        .section-title {
+            font-size: clamp(40px, 6vw, 64px);
+            font-weight: 700;
+            letter-spacing: -0.015em;
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        .layer-grid {
+            display: grid;
+            gap: 24px;
+            margin-top: 60px;
+        }
+
+        .layer-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 18px;
+            padding: 48px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .layer-card:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .layer-number {
+            display: inline-block;
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #06c, #0cf);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .layer-title {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .layer-desc {
+            font-size: 19px;
+            line-height: 1.6;
+            color: #a1a1a6;
+        }
+
+        /* Project Section */
+        .project-section {
+            background: #000;
+            padding: 120px 20px;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 24px;
+            padding: 60px;
+            margin-bottom: 80px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s ease;
+        }
+
+        .project-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: scale(1.02);
+        }
+
+        .project-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .project-icon {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #06c, #0cf);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            flex-shrink: 0;
+        }
+
+        .project-info h3 {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .project-info .repo {
+            font-size: 17px;
+            color: #0cf;
+            font-family: 'SF Mono', Monaco, monospace;
+            margin-bottom: 20px;
+        }
+
+        .project-info .tagline {
+            font-size: 21px;
+            color: #a1a1a6;
+            line-height: 1.5;
+        }
+
+        .project-image {
+            width: 100%;
+            border-radius: 16px;
+            margin: 40px 0;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.5);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .feature-item {
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .feature-item h4 {
+            font-size: 19px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #0cf;
+        }
+
+        .feature-item p {
+            font-size: 17px;
+            line-height: 1.5;
+            color: #a1a1a6;
+        }
+
+        .links {
+            display: flex;
+            gap: 16px;
+            margin-top: 32px;
+            flex-wrap: wrap;
+        }
+
+        .link-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 980px;
+            color: #2997ff;
+            text-decoration: none;
+            font-size: 17px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .link-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .link-btn::after {
+            content: '→';
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .link-btn:hover::after {
+            transform: translateX(4px);
+        }
+
+        /* Ecosystem Section */
+        .ecosystem {
+            background: linear-gradient(180deg, #1d1d1f 0%, #000 100%);
+            padding: 120px 20px;
+            text-align: center;
+        }
+
+        .ecosystem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin-top: 60px;
+        }
+
+        .ecosystem-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .ecosystem-card h4 {
+            font-size: 28px;
+            margin-bottom: 16px;
+            color: #0cf;
+        }
+
+        .ecosystem-card p {
+            font-size: 17px;
+            line-height: 1.6;
+            color: #a1a1a6;
+        }
+
+        /* Footer */
+        .footer {
+            background: #000;
+            padding: 60px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer h3 {
+            font-size: 32px;
+            margin-bottom: 24px;
+        }
+
+        .footer p {
+            font-size: 19px;
+            color: #a1a1a6;
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 16px 40px;
+            background: #0071e3;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 980px;
+            font-size: 19px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: #0077ed;
+            transform: scale(1.05);
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 21px;
+            font-weight: 600;
+            color: #f5f5f7;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            color: #f5f5f7;
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #0cf;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .project-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .project-icon {
+                margin: 0 auto;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 40px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            padding-top: 8px;
+        }
+
+        .scroll-indicator::before {
+            content: '';
+            width: 4px;
+            height: 8px;
+            background: #fff;
+            border-radius: 2px;
+            animation: scroll 2s infinite;
+        }
+
+        @keyframes scroll {
+            0%, 100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(12px);
+                opacity: 0.3;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-content">
+            <div class="nav-logo">Tencent Cloud ADP</div>
+            <div class="nav-links">
+                <a href="#architecture">Architecture</a>
+                <a href="#projects">Projects</a>
+                <a href="#ecosystem">Ecosystem</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero section">
+        <div class="container fade-in-up">
+            <h1>Tencent Cloud ADP <br/>Open Source Ecosystem</h1>
+            <p class="subtitle">
+                From <span class="gradient-text">foundation models</span> to <span class="gradient-text">real applications</span>.<br/>
+                A complete technical stack for building production-ready AI agents.
+            </p>
+        </div>
+        <div class="scroll-indicator"></div>
+    </section>
+
+    <!-- Architecture Overview -->
+    <section id="architecture" class="architecture section">
+        <div class="container">
+            <h2 class="section-title">Four-Layer Architecture</h2>
+            <p style="text-align: center; font-size: 21px; color: #a1a1a6; max-width: 800px; margin: 0 auto 60px;">
+                A complete agent development stack from compute infrastructure to end-user applications
+            </p>
+            
+            <div class="layer-grid">
+                <div class="layer-card fade-in-up">
+                    <div class="layer-number">1</div>
+                    <h3 class="layer-title">Foundation Layer</h3>
+                    <p class="layer-desc">
+                        Powerful multimodal models and compute infrastructure that enable agents to "see, listen, and speak". 
+                        <strong style="color: #0cf;">VITA</strong> provides GPT-4o-level real-time visual and speech interaction.
+                    </p>
+                </div>
+
+                <div class="layer-card fade-in-up" style="animation-delay: 0.1s;">
+                    <div class="layer-number">2</div>
+                    <h3 class="layer-title">Representation & Retrieval</h3>
+                    <p class="layer-desc">
+                        High-quality text embeddings and knowledge retrieval capabilities. 
+                        <strong style="color: #0cf;">Youtu-Embedding</strong> and <strong style="color: #0cf;">Youtu-GraphRAG</strong> 
+                        turn large volumes of text into searchable, reasoning-capable structures.
+                    </p>
+                </div>
+
+                <div class="layer-card fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="layer-number">3</div>
+                    <h3 class="layer-title">Agent Orchestration</h3>
+                    <p class="layer-desc">
+                        Extensible, debuggable, and measurable agent frameworks. 
+                        <strong style="color: #0cf;">Youtu-Agent</strong> organizes models, tools, and retrieval 
+                        into programmable, autonomous systems with strong evaluation capabilities.
+                    </p>
+                </div>
+
+                <div class="layer-card fade-in-up" style="animation-delay: 0.3s;">
+                    <div class="layer-number">4</div>
+                    <h3 class="layer-title">Application Layer</h3>
+                    <p class="layer-desc">
+                        User-facing applications across web and multi-device frontends. 
+                        <strong style="color: #0cf;">ADP-Chat-Client</strong> delivers agent capabilities 
+                        with real-time streaming, multimodal input, and enterprise authentication.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="project-section">
+        <div class="container">
+            <h2 class="section-title">Open-Source Projects</h2>
+
+            <!-- VITA -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">🎬</div>
+                    <div class="project-info">
+                        <h3>VITA</h3>
+                        <p class="repo">VITA-MLLM/VITA</p>
+                        <p class="tagline">Toward GPT-4o-level real-time visual and speech interaction</p>
+                    </div>
+                </div>
+
+                <img src="https://raw.githubusercontent.com/VITA-MLLM/VITA/main/asset/vita_newlog.jpg" alt="VITA" class="project-image" onerror="this.style.display='none'">
+
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <h4>Multimodal Input</h4>
+                        <p>Supports image, speech, and text inputs with seamless interaction</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Real-Time Response</h4>
+                        <p>End-to-end latency reduced to ~1.5 seconds for natural conversations</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Enhanced Performance</h4>
+                        <p>Significantly improved on MME, MMBench, MathVista benchmarks</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Bilingual Support</h4>
+                        <p>Native support for both English and Chinese interactions</p>
+                    </div>
+                </div>
+
+                <div class="links">
+                    <a href="https://arxiv.org/pdf/2501.01957" class="link-btn">Technical Report</a>
+                    <a href="https://modelscope.cn/studios/modelscope/VITA1.5_demo" class="link-btn">Live Demo</a>
+                    <a href="https://vita-home.github.io/" class="link-btn">Project Homepage</a>
+                </div>
+            </div>
+
+            <!-- Youtu-Embedding -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">🔍</div>
+                    <div class="project-info">
+                        <h3>Youtu-Embedding</h3>
+                        <p class="repo">TencentCloudADP/youtu-embedding</p>
+                        <p class="tagline">Industry-leading general-purpose text representation model</p>
+                    </div>
+                </div>
+
+                <img src="https://raw.githubusercontent.com/TencentCloudADP/youtu-embedding/main/assets/framework.png" alt="Youtu-Embedding Framework" class="project-image" onerror="this.style.display='none'">
+
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <h4>State-of-the-Art</h4>
+                        <p>Scores 77.58 on CMTEB Chinese embedding benchmark (Sep 2025)</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Multi-Task Support</h4>
+                        <p>Handles IR, STS, clustering, reranking, and classification tasks</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Advanced Training</h4>
+                        <p>Three-stage pipeline with collaborative-discriminative fine-tuning</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Production Ready</h4>
+                        <p>Open-sourced weights, inference scripts, and training framework</p>
+                    </div>
+                </div>
+
+                <div class="links">
+                    <a href="https://huggingface.co/tencent/Youtu-Embedding" class="link-btn">Model & Weights</a>
+                    <a href="https://arxiv.org/abs/2508.11442" class="link-btn">Paper (CoDiEmb)</a>
+                    <a href="http://youtu.qq.com/" class="link-btn">Youtu Platform</a>
+                </div>
+            </div>
+
+            <!-- Youtu-GraphRAG -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">🕸️</div>
+                    <div class="project-info">
+                        <h3>Youtu-GraphRAG</h3>
+                        <p class="repo">TencentCloudADP/youtu-graphrag</p>
+                        <p class="tagline">Vertically unified agentic GraphRAG paradigm for complex reasoning</p>
+                    </div>
+                </div>
+
+                <img src="https://raw.githubusercontent.com/TencentCloudADP/youtu-graphrag/main/assets/framework.png" alt="Youtu-GraphRAG Framework" class="project-image" onerror="this.style.display='none'">
+
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <h4>Hierarchical Knowledge</h4>
+                        <p>Four-level knowledge tree: attributes, relations, keywords, communities</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Smart Detection</h4>
+                        <p>Dual-perceived community detection combining topology and semantics</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Agentic Retrieval</h4>
+                        <p>Schema-aware query decomposition and iterative retrieval</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Interactive UI</h4>
+                        <p>Web UI and Docker demos for graph visualization and reasoning paths</p>
+                    </div>
+                </div>
+
+                <div class="links">
+                    <a href="https://arxiv.org/abs/2508.19855" class="link-btn">Research Paper</a>
+                    <a href="https://huggingface.co/datasets/Youtu-Graph/AnonyRAG" class="link-btn">AnonyRAG Dataset</a>
+                    <a href="http://youtu.qq.com/" class="link-btn">Youtu Platform</a>
+                </div>
+            </div>
+
+            <!-- Youtu-Agent -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">🤖</div>
+                    <div class="project-info">
+                        <h3>Youtu-Agent</h3>
+                        <p class="repo">TencentCloudADP/youtu-agent</p>
+                        <p class="tagline">Flexible, high-performance framework optimized for open-source models</p>
+                    </div>
+                </div>
+
+                <img src="https://raw.githubusercontent.com/TencentCloudADP/youtu-agent/main/docs/assets/images/header.png" alt="Youtu-Agent Overview" class="project-image" onerror="this.style.display='none'">
+
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <h4>Verified Performance</h4>
+                        <p>71.47% on WebWalkerQA, 72.8% on GAIA with open models only</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Cost Efficient</h4>
+                        <p>Designed for open-source models with lower deployment costs</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Auto Generation</h4>
+                        <p>Meta-agent generates agent configs and tools automatically</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Training-Free GRPO</h4>
+                        <p>Improve agent policies with ~$8 per RL run, no fine-tuning needed</p>
+                    </div>
+                </div>
+
+                <div class="links">
+                    <a href="https://tencentcloudadp.github.io/youtu-agent/" class="link-btn">Official Docs</a>
+                    <a href="http://youtu.qq.com/" class="link-btn">Youtu Platform</a>
+                </div>
+            </div>
+
+            <!-- ADP-Chat-Client -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">💬</div>
+                    <div class="project-info">
+                        <h3>ADP-Chat-Client</h3>
+                        <p class="repo">TencentCloudADP/adp-chat-client</p>
+                        <p class="tagline">General-purpose conversation interface for ADP agent applications</p>
+                    </div>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <h4>Multi-Platform</h4>
+                        <p>Deploy as web apps, mini programs, Android, and iOS applications</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Real-Time Streaming</h4>
+                        <p>Streaming conversations with history management</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Enterprise Auth</h4>
+                        <p>Built-in GitHub and Microsoft Entra ID OAuth support</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Easy Deployment</h4>
+                        <p>Docker-based packaging with simple make commands</p>
+                    </div>
+                </div>
+
+                <div class="links">
+                    <a href="https://adp.tencentcloud.com/" class="link-btn">ADP Platform</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ecosystem Section -->
+    <section id="ecosystem" class="ecosystem">
+        <div class="container">
+            <h2 class="section-title">Why Open Source Matters</h2>
+            <p style="font-size: 21px; color: #a1a1a6; max-width: 800px; margin: 0 auto 60px;">
+                Open source has evolved from code sharing to a critical mechanism connecting technical innovation, 
+                commercialization, and global ecosystems.
+            </p>
+
+            <div class="ecosystem-grid">
+                <div class="ecosystem-card">
+                    <h4>Build Trust</h4>
+                    <p>
+                        Transparent implementations lower barriers for developers and enterprises to adopt 
+                        agent solutions based on ADP and Tencent Cloud.
+                    </p>
+                </div>
+
+                <div class="ecosystem-card">
+                    <h4>Attract Co-Builders</h4>
+                    <p>
+                        Create a broader community of developers, research labs, and enterprises who can 
+                        extend, adapt, and stress-test the ecosystem.
+                    </p>
+                </div>
+
+                <div class="ecosystem-card">
+                    <h4>Accelerate Innovation</h4>
+                    <p>
+                        Use community feedback and real-world use cases to iterate ADP and its components, 
+                        forming a sustainable, evolving ecosystem.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <h3>Start Building Today</h3>
+            <p>
+                Through this open-source ecosystem, Tencent Cloud ADP aims to shorten the distance between 
+                foundation models, agents, knowledge, and applications.
+            </p>
+            <a href="https://adp.tencentcloud.com/" class="cta-button">Visit ADP Platform</a>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards
+        document.querySelectorAll('.layer-card, .project-card, .ecosystem-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Nav background on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('.nav');
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(0, 0, 0, 0.95)';
+            } else {
+                nav.style.background = 'rgba(0, 0, 0, 0.8)';
+            }
+        });
+    </script>
+</body>
+</html>
